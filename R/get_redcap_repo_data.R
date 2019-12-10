@@ -90,7 +90,7 @@ for (entry in redcap_repo_entries){
 redcap_repo_data <- bind_rows(!!!redcap_repo_data) %>%
   mutate_at(vars(c("deployed", "institution")), ~ str_remove_all(., "\\(|\\)")) %>%
   mutate_at(vars(c("description", "author_email")), ~ str_remove_all(., "Description: |mailto:")) %>%
-  mutate(version = str_extract(deployed, "v\\d.+"),
+  mutate(version = str_remove(str_extract(deployed, "v\\d.+"), "\\w"),
          deployed = str_remove(deployed, "_v\\d.+")) %>%
   select(title, deployed, version, everything())
 
